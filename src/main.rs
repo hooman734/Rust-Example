@@ -141,10 +141,105 @@ fn main() {
 
     // reference
     println!("-------references");
-    let x = 7;
+    let mut x = 7;
+    println!("x is {}", x);
+    
+    {
+        let x_ref_mut = &mut x; // mutable reference should enclosed inside a block
+        *x_ref_mut += 7;
+        println!("x reference is {}", x_ref_mut);
+    }
+
     let x_ref = &x;
+
     println!("x is {}", x);
     println!("x reference is {}", x_ref);
 
+    // structs
+    println!("-------structs");
+
+    struct Color {
+        red: u8, // u8: 0-255
+        green: u8,
+        blue: u8
+    }
+    let bg = Color {red: 255, green: 70, blue: 15};
+    println!("{}, {}, {}", bg.red, bg.green, bg.blue);
+
+    struct Color2(u8, u8, u8);
+    let mut bg2 = Color2(30, 70, 255);
+    println!("{}, {}, {}", bg2.0, bg2.1, bg2.2);
+    bg2.2 = 40;
+    println!("{}, {}, {}", bg2.0, bg2.1, bg2.2);
+
+    // pass by reference
+    println!("-------pass by reference");
+
+    fn print_color(c: Color) {
+        println!("Color - R:{} G:{} B:{}", c.red, c.green, c.blue);
+    }
+
+    fn print_color2(c: &Color2) {
+        println!("Color - R:{} G:{} B:{}", c.0, c.1, c.2);
+    }
+
+    print_color(bg);
+    /*   print_color(bg);  *impossible    */
+
+    print_color2(&bg2);
+    print_color2(&bg2);
+    print_color2(&bg2); // it is possible to have multile function invocation due to it is called by reference
+
+    // arrays
+    println!("-------arrays");
+
+    let sample_array = [1, 3, 5, 7]; // either ways are valid
+    let sample_array2: [i32; 4] = [6, 8, 15, 20];
+    println!("{}", sample_array[1]);
+
+    for (i, el) in sample_array.iter().enumerate() {
+        println!("{}-th element is {}", i, el);
+    }
+
+    for i in 0..sample_array2.len() {
+        println!("{}", sample_array2[i]);
+    }
+
+    let array_of_2 = [2; 10]; // generating an array of 2's with length 10
+    for el in array_of_2.iter() {
+        println!("{}", el);
+    }
+
+    // impl
+    println!("-------impl");
+
+    struct Rectangle {
+        width: u32,
+        height: u32
+    }
+
+    impl Rectangle {
+        fn print_description(&self) {
+            println!("Rectangle: {} x {}", self.width, self.height);
+        }
+        fn is_square(&self) -> bool{
+            return self.width == self.height;
+        }
+        fn area(&self) -> u32 {
+            return self.width * self.height;
+        }
+        fn perimeter(&self) -> u32 {
+            return (self.width + self.height) * 2;
+        }
+    }
+
+    let rectangle: Rectangle = Rectangle {height: 30, width: 10, };
+    rectangle.print_description();
+    println!("The given rectangle is square? {}", rectangle.is_square());
+    println!("Area is {} and perimeter is {}", rectangle.area(), rectangle.perimeter());
+
+    // Strings
+    println!("-------Strings");
+    
 
 }  
