@@ -240,6 +240,133 @@ fn main() {
 
     // Strings
     println!("-------Strings");
+
+    let new_string = "Hello World"; // primitive string
+    println!("{}", new_string);
+
+    let mut my_string = String::from("How is it going today?");
+    println!("{}", my_string);
+    println!("{}", my_string.len());
+    println!("{}", my_string.is_empty());
+    for token in my_string.split_whitespace() { // there is not in primitive string
+        println!("{}-", token)
+    }
+    println!("Does contain {} 'today' in it? {}", my_string, my_string.contains("today"));
+    my_string.push_str(new_string);
+    println!("{}", my_string);
+    /*   println!("{}", my_string.push_str(new_string))  *impossible */
+
+
+    // Traits (like interface)
+    println!("-------Traits"); 
     
+    struct Person {
+        name: String,
+        age: u32,
+    }
+
+    // impl Person {
+    //     fn to_string(&self) -> String {
+    //         return format!("My name is {} and my age is {}", self.name, self.age);
+    //     }
+    // }
+
+    impl ToString for Person { // trait "ToString" is implemented for "Person"
+        fn to_string(&self) -> String {
+            return format!("My name is {} and my age is {}", self.name, self.age);
+        }
+    }
+
+    let hooman: Person = Person {age: 39, name: String::from("Hesamyan Hooman")};
+    println!("{}", hooman.to_string());
+
+    // Custom Traits (like interface)
+    println!("-------Custom Traits"); 
+    
+    trait HasVoiceBox {
+        // speak
+        fn speak(&self);
+        
+        // check if can speak
+        fn can_speak(&self) -> bool;
+    }
+
+    impl HasVoiceBox for Person {
+        fn speak(&self) {
+            println!("Hello, my name is {} ", self.name);
+        }
+
+        fn can_speak(&self) -> bool {
+            if self.age > 3 {
+                return true;
+            } return false;
+            
+        }
+    }
+
+    println!("I am {} and I can speak? {}", hooman.name, hooman.can_speak());
+    hooman.speak();
+
+    // Match Operator (like Switch)
+    println!("-------Match Operator");
+
+    let number = 11;
+
+    match number {
+        1 => println!("It is one!"), // case 1
+        2 => println!("it is two!"), // case 2
+        3 | 4 => println!("it is three or four!"), // case 3 | 4
+        5..=10 => println!("it is between 5 to 10"), // case 5 to 10
+        _ => println!("it is out of the range!"), // default
+    }
+
+    // read input from console 
+    println!("-------read input from console");
+
+    use std::io;
+    let mut input = String::new();
+    println!("Hey mate! Say something:");
+    match io::stdin().read_line(&mut input) {
+        Ok(_) => {
+            println!("Success! You said: {}", input.to_ascii_uppercase());
+        },
+        Err(e) => println!("Oops! SOmething went wrong: {}", e)
+    }
+
+    // Hashmap 
+    println!("-------Hashmap");
+
+    use std::collections::HashMap;
+    
+    // define HashMap
+    let mut marks = HashMap::new();
+
+    // add values
+    marks.insert("Rust Programming", 96);
+    marks.insert("Lua Programming", 100);
+    marks.insert("C++ Programming", 90);
+    marks.insert("Java Programming", 94);
+
+    // prompt length of the HashMap
+    println!("How many subjects are collected there? {}", marks.len());
+
+    // find a subject
+    match marks.get("Rust Programming") {
+        Some(mark) => println!("You have got {} for that.", mark),
+        None => println!("You did not study this subject!"),
+    }
+
+    // remove an item
+    marks.remove("Java Programming");
+
+    // loop through HashMap
+    for (subject, mark) in &marks {
+        println!("For {} you have got {}.", subject, mark);
+    }
+
+    // check for value
+    println!("Did you study C#? {} ", marks.contains_key("C# Programming"));
+
+
 
 }  
